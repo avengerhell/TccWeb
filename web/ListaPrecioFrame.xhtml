@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/facelets/template/menuTem.xhtml">
+
+            <ui:define name="content-center">
+                <h:form id ="formInsertar">
+                    <p:panelGrid columns ="2">
+                        <p:outputLabel value="Evento"/>
+                        <p:selectOneMenu id="ev" value="#{listaPrecioBeanMB.lista.eventoCab}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                            <p:ajax listener="#{listaPrecioBeanMB.onEventChange()}" update="se" />
+                            <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{eventoCabBeanMB.eventos}"
+                                           var="tip"
+                                           itemLabel="#{tip.nombre}"
+                                           itemValue="#{tip}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Sector"/>
+                        <p:selectOneMenu id="se" value="#{listaPrecioBeanMB.lista.sector}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{listaPrecioBeanMB.sectores}"
+                                           var="tip"
+                                           itemLabel="#{tip.descripcion}"
+                                           itemValue="#{tip}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Valor"/>
+                        <p:inputText value="#{listaPrecioBeanMB.lista.valor}" maxlength="50"/>
+
+                        <p:outputLabel value="Fecha inicio"/>
+                        <p:calendar id="mask" value="#{listaPrecioBeanMB.lista.fecInicio}" pattern="dd/MM/yyyy" mask="true" />
+                        <p:outputLabel value="Fecha fin"/>
+                        <p:calendar id="mask1" value="#{listaPrecioBeanMB.lista.fecFin}" pattern="dd/MM/yyyy" mask="true" />
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{listaPrecioBeanMB.insertar()}" value="Ingresar grilla" oncomplete="limpiarForm()"/> 
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

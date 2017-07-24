@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div>
+            <p:dialog id="mostrarProveedor" header="Proveedor" showEffect="explode" 
+                      hideEffect="explode" widgetVar="digProveedor" modal="true" 
+                      resizable="true" minWidth="200" closeOnEscape="true" height="410" >
+                <h:form id ="formProve">
+                    <p:dataTable id="proData" var="prov" value="#{proveedorBeanMB.proveedores}"
+                                 emptyMessage="La persona no es proveedor"
+                                 paginator="true" rows="10" paginatorPosition="top"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                 {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate ="10">
+                        <p:column headerText='Id Proveedor' style="width:80px">
+                            <h:outputText value='#{prov.codProveedor}'/>
+                        </p:column>
+                        <p:column headerText='Persona'>
+                            <h:outputText value='#{prov.codPersona.nombre}'/>
+                        </p:column>
+                        <p:column headerText='Estado'>
+                            <h:outputText value='#{prov.estado}'/>
+                        </p:column>
+
+                        <p:column headerText="Modificar">
+                            <p:commandButton value="Modificar" oncomplete="PF('digModProveedor').show()" update="@([id$=formModPro])">
+                                <f:setPropertyActionListener target="#{proveedorBeanMB.proveedor}" value="#{prov}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar">
+                            <p:commandButton value="Eliminar" oncomplete="PF('digDelProv').show()" update="@([id$=formEliProv])">
+                                <f:setPropertyActionListener target="#{proveedorBeanMB.proveedor}" value="#{prov}"/>
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="dlgo" header="Modificar Proveedor" showEffect="explode" hideEffect="explode"
+                      widgetVar="digModProveedor" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                <h:form id="formModPro">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel  value="Proveedor: " />
+                        <p:inputText id="parO" value="#{proveedorBeanMB.proveedor.codPersona.nombre}" style="width:200px" converter="omnifaces.SelectItemsConverter" readonly="true"/>
+
+
+
+                        <p:outputLabel value="Estado: "/>
+                        <p:selectOneMenu id="valor" value="#{proveedorBeanMB.proveedor.estado}" style="width:200px">
+                            <f:selectItem itemLabel="Seleccionar Estado" itemValue="" />
+                            <f:selectItem itemLabel="1-Activo" itemValue="1" />
+                            <f:selectItem itemLabel="2-Inactivo" itemValue="2" />
+                            <f:selectItem itemLabel="3-Suspendido" itemValue="3" />
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton value="Modificar"
+                                     actionListener="#{proveedorBeanMB.modificar()}"
+                                     oncomplete="PF('digModProveedor').hide();">
+                        <f:ajax render=":formProve:proData"/>
+                    </p:commandButton>
+
+                </h:form>
+            </p:dialog>
+            <p:dialog id="dlgEliminar" header="Eliminar" showEffect="explode" hideEffect="explode"
+                      widgetVar="digDelProv" modal="true" resizable="false" minWidth="200" closeOnEscape="true" onHide="PF('mostrarCliente').hide();">
+                <h:form id="formEliProv">
+
+                    <h:outputText value="Desea eliminar?"/>
+                    <p:commandButton value="Sí" update="@([id$=formProve])" actionListener="#{proveedorBeanMB.eliminar()}"
+                                     oncomplete="PF('digDelProv').hide();"/>
+                    <p:commandButton value="No" onclick="digDelClie.hide();"/>
+                </h:form>
+            </p:dialog>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html lang="es-ES"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition  template="/WEB-INF/facelets/template/mainTemplate2.xhtml"> 
+        <ui:define name="content">
+            <ui:define name="header">
+                <f:metadata>
+                    <f:viewParam name="status" value="#{indexUserMB.status}"/>
+                </f:metadata>
+            </ui:define>
+            <section id="main" style="width: 100%; margin-top: 94px;height: auto;min-height: 100% !important;">
+                <section id="menu">
+                    <h:form>
+                        <p:growl id="messages"
+                                 showDetail="true"
+                                 showSummary="true"
+                                 autoUpdate="true"/>
+                        <p:menubar>
+                            <p:menuitem value="Inicio" outcome="/restricted/billing/viewInvoices.gdm" icon="fa fa-home" />
+                            <p:submenu label="Insertar" icon="fa fa-plus">
+                                <p:menuitem value="Pago manual" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/createVoucher.gdm"/>
+                                <p:menuitem value="Factura manual" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/createInvoice.gdm"/>
+                                <p:menuitem value="Cargos" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/createExpense.gdm"/>
+                                <p:menuitem value="Desde archivo" 
+                                            icon="fa fa-file-archive-o" 
+                                            url="/restricted/upload/fileUpload.gdm"/>
+                                <p:separator />
+                                <p:menuitem value="Periodos de cierre" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/createPeriods.gdm"/>
+                            </p:submenu>
+                            <p:submenu label="Anulaciones" icon="fa fa-remove">
+                                <p:menuitem value="Facturas" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/cancelBill.gdm"/>
+                                <p:menuitem value="Recibos / pagos" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/cancelVoucher.gdm"/>
+                            </p:submenu>
+                            <p:submenu label="Consultas" icon="fa fa-search">
+                                <p:menuitem value="Facturación" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/viewInvoices.gdm"/>
+                                <p:menuitem value="Recibos y pagos" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/viewVouchers.gdm"/>
+                                <p:menuitem value="Saldo General" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/billing/generalBalance.gdm"/>
+                            </p:submenu>
+                            <p:submenu label="Reportes" icon="fa fa-line-chart">
+                                <p:menuitem value="Estado de cuentas" 
+                                            icon="fa fa-angle-right" 
+                                            url="/restricted/reports/accountState.gdm"/>
+                                <p:menuitem value="Calendario cierres" 
+                                            icon="fa fa-calendar" 
+                                            url="/restricted/reports/periodsCalendar.gdm"/>
+                            </p:submenu>
+                            <p:submenu label="Usuario" icon="fa fa-user" >
+                                <p:menuitem value="Cambiar contraseña" 
+                                            icon="fa fa-key" 
+                                            url="/restricted/auth/changePassword.gdm"/>
+                            </p:submenu>
+                        </p:menubar>
+                    </h:form>
+                </section>
+                <section id="content-sentinela">
+                    <ui:insert name="content-center">
+                    </ui:insert>
+                </section>
+            </section>
+        </ui:define>
+    </ui:composition>
+</html>

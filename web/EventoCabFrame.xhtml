@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/facelets/template/menuTem.xhtml">
+
+            <ui:define name="content-center">
+                <h:form id ="formInsertar">
+                    <p:panelGrid columns ="2">
+                        <p:outputLabel value="Proveedor: " />
+                        <p:selectOneMenu id="prov" value="#{eventoCabBeanMB.evento.codProveedor}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Seleccionar Proveedor" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{proveedorBeanMB.proveedores}"
+                                           var="prove"
+                                           itemLabel="#{prove.codPersona.nombre}"
+                                           itemValue="#{prove}"/>
+                        </p:selectOneMenu>  
+
+
+                        <p:outputLabel value="Tipo de evento: "/>
+                        <p:selectOneMenu id="ti" value="#{eventoCabBeanMB.evento.codTipo}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{tipoEventoBeanMB.tipos}"
+                                           var="tip"
+                                           itemLabel="#{tip.descripcion}"
+                                           itemValue="#{tip}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Nombre: "/>
+                        <p:inputText value="#{eventoCabBeanMB.evento.nombre}" style="width:195px"/>
+
+                        <p:outputLabel value="Descripcion: "/>
+                        <p:inputText value="#{eventoCabBeanMB.evento.descripcion}" style="width:195px"/>
+
+                        <p:outputLabel value="Fecha de Contrato: "/>
+                        <p:calendar id="contrato" value="#{eventoCabBeanMB.evento.fecContrato}" pattern="dd/MM/yyyy" mask="true" />
+
+                        <p:outputLabel value="Fecha de Inicio: "/>
+                        <p:calendar id="inicio" value="#{eventoCabBeanMB.evento.fecInicio}" pattern="dd/MM/yyyy" mask="true" />
+
+                        <p:outputLabel value="Fecha de Fin: "/>
+                        <p:calendar id="fin" value="#{eventoCabBeanMB.evento.fecFin}" pattern="dd/MM/yyyy" mask="true" />
+
+                        <p:outputLabel value="Estado: "/>
+                        <p:selectOneMenu id="console" value="#{eventoCabBeanMB.evento.estado}" style="width:200px">
+                            <f:selectItem itemLabel="Seleccionar Estado: " itemValue="#{null}" />
+                            <f:selectItem itemLabel="1-Activo" itemValue="A" />
+                            <f:selectItem itemLabel="2-Realizado" itemValue="R" />
+                            <f:selectItem itemLabel="3-Cancelado" itemValue="C" />
+                            <f:selectItem itemLabel="4-Inactivo" itemValue="I" />
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{eventoCabBeanMB.insertar()}" value="Ingresar Evento"/> 
+                    <p:commandButton value="Cancelar" onclick="inser.hide();"/> 
+
+                    <p:commandButton value="Sector" oncomplete="PF('diginsertarSec').show()" update=":formAddSector">
+                        <f:setPropertyActionListener target="#{sectorBeanMB.event}" value="#{eventoCabBeanMB.evento.codEvento}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Localidad" oncomplete="PF('diginsertarLoca').show()" update=":formAddLocal">
+                        <f:setPropertyActionListener target="#{localidadEventoBeanMB.event}" value="#{eventoCabBeanMB.evento.codEvento}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Condiciones" oncomplete="PF('diginsertarCon').show()" update=":formAddCondi">
+                        <f:setPropertyActionListener target="#{condicionEventoBeanMB.evento}" value="#{eventoCabBeanMB.evento.codEvento}"/>
+                    </p:commandButton>                    
+
+                </h:form>
+
+                <p:dialog id="inserSector" header="Insertar Sector" showEffect="explode" hideEffect="explode"
+                          widgetVar="diginsertarSec" modal="true" resizable="false" minWidth="200" closeOnEscape="true" onHide="PF('digModRango').hide();">
+
+                    <h:form id ="formAddSector">
+                        <p:panelGrid columns ="2"> 
+                            <p:outputLabel  value="Evento: " />
+                            <p:inputText id="parO" value="#{sectorBeanMB.event}" style="width:200px" readonly="true"/>
+                            <p:outputLabel  value="Descripcion: " />
+                            <p:inputText value="#{sectorBeanMB.sector.descripcion}" style="width:195px"/> 
+                            <p:outputLabel value="Ilimitado? : "/>
+                            <p:selectBooleanCheckbox value="#{sectorBeanMB.ilimitado}"/>
+                            <p:outputLabel  value="Cantidad: " />
+                            <p:inputText value="#{sectorBeanMB.sector.cantidad}" style="width:195px" pt:type="number"/> 
+
+                        </p:panelGrid>
+                        <p:commandButton value="Insertar Sector" actionListener="#{sectorBeanMB.insertar()}"/>
+                        <p:commandButton value="Cancelar" onclick="inser.hide();"/> 
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="inserLocalidad" header="Insertar Localidad" showEffect="explode" hideEffect="explode"
+                          widgetVar="diginsertarLoca" modal="true" resizable="false" minWidth="200" closeOnEscape="true" onHide="PF('digModRango').hide();">
+                    <!--<p:ajax event="close" update=":formInsertarRango:rangoData" />-->
+                    <h:form id ="formAddLocal">
+                        <p:panelGrid columns ="4"> 
+                            <p:outputLabel  value="Evento: " />
+                            <p:inputText id="parO" value="#{localidadEventoBeanMB.event}" style="width:200px" readonly="true"/>
+                            <p:outputLabel value="Localidad: " />
+                            <p:selectOneMenu id="prov" value="#{localidadEventoBeanMB.codLocal}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Seleccionar Localidad" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{localidadBeanMB.locales}"
+                                               var="loc"
+                                               itemLabel="#{loc.descripcion}"
+                                               itemValue="#{loc.codLocalidad}"/>
+                            </p:selectOneMenu> 
+                        </p:panelGrid>
+                        <p:commandButton value="Insertar Local" actionListener="#{localidadEventoBeanMB.insertar()}"/>
+                        <p:commandButton value="Cancelar" onclick="inser.hide();"/> 
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="inserCondicion" header="Insertar Condicion" showEffect="explode" hideEffect="explode"
+                          widgetVar="diginsertarCon" modal="true" resizable="false" minWidth="200" closeOnEscape="true" onHide="PF('digModRango').hide();">
+                    <!--<p:ajax event="close" update=":formInsertarRango:rangoData" />-->
+                    <h:form id ="formAddCondi">
+                        <p:panelGrid columns ="4"> 
+                            <p:outputLabel  value="Evento: " />
+                            <p:inputText id="parO" value="#{condicionEventoBeanMB.evento}" style="width:200px" readonly="true"/>
+                            <p:outputLabel value="Condicion: " />
+                            <p:selectOneMenu id="prov" value="#{condicionEventoBeanMB.codCond}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Seleccionar Localidad" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{condicionBeanMB.condiciones}"
+                                               var="con"
+                                               itemLabel="#{con.descripcion}"
+                                               itemValue="#{con.codCondicion}"/>
+                            </p:selectOneMenu> 
+                            <p:outputLabel  value="Valor: " />
+                            <p:inputText id="valo" value="#{condicionEventoBeanMB.condicion.valor}" style="width:200px" />
+                        </p:panelGrid>
+                        <p:commandButton value="Insertar Local" actionListener="#{condicionEventoBeanMB.insertar()}"
+                                         oncomplete="PF('diginsertarCon').hide();"/>
+                        <p:commandButton value="Cancelar" onclick="inser.hide();"/> 
+                    </h:form>
+                </p:dialog>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

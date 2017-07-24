@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+
+        <ui:composition template="./mainTemplate2.xhtml">
+
+            <ui:define name="content">
+                <!--<ui:define name="header">
+                  <f:metadata>
+                      <f:viewParam name="status" value="#{indexUserMB.status}"/>
+                  </f:metadata>
+              </ui:define>-->
+                <section id="main" style="width: 100%; margin-top: 94px;height: auto;min-height: 100% !important;">
+                    <section id="menu">
+                        <h:form>
+                            <p:growl id="messages"
+                                     showDetail="true"
+                                     showSummary="true"
+                                     autoUpdate="true"/>
+                            <p:megaMenu style="margin-top:20px">
+                                <p:menuitem value="Inicio" outcome="welcomeFrame.xhtml" icon="fa fa-home" />
+                                <p:submenu label="Parametros" icon="ui-icon-disk">
+                                    <p:column>
+                                        <p:submenu label="Parametros"  icon="ui-icon-check">
+                                            <p:menuitem value="Grilla" outcome="grillaFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Tarifa" outcome="tarifaFrame.xhtml" update="messages" />                                        
+                                            <p:menuitem value="Participante" outcome="participanteFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Regla Clearing" outcome="reglaFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Descuento" outcome="descuentoFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Grilla de entidades" outcome="GrillaEntidadFrame.xhtml" update="messages"/>
+                                        </p:submenu>
+                                        <p:submenu label="Excepciones" icon="ui-icon-disk">
+                                            <p:menuitem value="Excepcion tarifa" outcome="excepcionTarifaFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Excepcion rango tarifa" outcome="excepcionRangoTarifaFrame.xhtml" update="messages"/>
+                                        </p:submenu>
+                                    </p:column>
+                                </p:submenu>
+                                <p:submenu label="Tipificacion"  icon="ui-icon-check">
+                                    <p:column>
+                                        <p:submenu label="Parametrizaciones"  icon="ui-icon-check">
+                                            <p:menuitem value="Usuario" outcome="usuarioFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Moneda" outcome="monedaFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Red" outcome="redFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Tipo Tarifa" outcome="tipoTarifaFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Tipo Participante" outcome="tipoParticipanteFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Tipo Regla" outcome="tipoReglaFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Tipo Monto Regla" outcome="TipoMontoFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Tipo Monto Descuento" outcome="tipoMontoDescuentoFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Tipo Descuento" outcome="TipoDescuentoFrame.xhtml" update="messages"/>
+                                            <p:menuitem value="Tipo Operacion Bancaria" outcome="tipoOperBancariaFrame.xhtml" update="messages"/>
+                                        </p:submenu>
+                                    </p:column>
+                                </p:submenu>
+                            </p:megaMenu>
+                        </h:form>
+                    </section>
+                    <section id="content-clearing">
+                        <ui:insert name="content-center">
+                        </ui:insert>
+                    </section>
+                </section>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

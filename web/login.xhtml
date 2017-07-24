@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/facelets/template/mainTemplate.xhtml">
+
+            <ui:define name="container">
+                <h:form id="loginForm">          
+                    <p:growl id="msg" showDetail="true" life="3000" />
+                    <p:panel header="Login" style="width: 360px;">
+
+                        <h:panelGrid id="loginPanel" columns="2">
+
+                            <h:outputText value="Username" />
+
+                            <p:inputText id="username" value="#{usuarioBeanMB.usuarioNombre}" ></p:inputText>
+
+                            <p:spacer></p:spacer>
+
+                            <p:message for="username" ></p:message>
+
+                            <h:outputText value="Password" />
+
+                            <p:password id="password" value="#{usuarioBeanMB.user.password}"  feedback="false"></p:password>
+
+                            <p:spacer></p:spacer>
+
+                            <p:message for="password"></p:message>
+
+                            <p:spacer></p:spacer>
+
+                            <p:commandButton action="#{usuarioBeanMB.validateUsernamePassword()}" value="Login" update="loginForm" ajax="false"></p:commandButton>
+
+                        </h:panelGrid>
+
+                    </p:panel>
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

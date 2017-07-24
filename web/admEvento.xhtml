@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Diego Martinez base xhtml
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="/WEB-INF/facelets/template/menuTem.xhtml">
+            <ui:define name="content-center" >
+                <h:form id="principal">
+                    <script type="text/javascript">
+                        function limpiarForm()
+                        {
+                            document.getElementById("formInsertar").reset();
+                        }
+                    </script>
+                    <h1> Administración de Tipo de Eventos </h1>
+
+                    <p:tab title ="Alta Tipo de evento">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <h:outputLabel id="tipo" value="Tipo de Evento:" style="font-weight:bold" />
+                            <p:inputText id="name" placeholder="Clase de evento" value="#{tipoEventoBeanMB.getTipo().descripcion}" />
+                            <p:commandButton value="Ingresar" action="#{tipoEventoBeanMB.PreInsertar()}" icon="ui-icon-check"  onclick= "limpiarForm()"/>
+                        </h:panelGrid>
+                    </p:tab>
+
+                    <p:tab title="Actualizar Tipo de evento">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <h:outputLabel id="tipo1" value="Buscar Tipo de Evento:" style="font-weight:bold" />
+                            
+                            <h:form id="tabla">
+                                <p:growl id="msgs" for="tabla" showDetail="true"/>
+
+                                <p:dataTable id="eventos" var="tipoEventoBeanMB" value="#{tipoEventoBeanMB.getTipos()}" editable="true" style="margin-bottom:20px">
+                                    <f:facet name="header">
+                                        Row Editing
+                                    </f:facet>
+
+                                    <p:ajax event="rowEdit" listener="#{tipoEventoBeanMB.onRowEdit}" update=":form:msgs" />
+                                    <p:ajax event="rowEditCancel" listener="#{tipoEventoBeanMB.onRowCancel}" update=":form:msgs" />
+
+                                    <p:column headerText="Id">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{tipoEventoBeanMB.tipo.codTipo}" /></f:facet>
+                                            <f:facet name="input"><p:inputText id="modelInput" value="#{tipoEventoBeanMB.getTipoCod()}" style="width:100%"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="Tipo de Evento">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{tipoEventoBeanMB.getTipoDescrip}" /></f:facet>
+                                            <f:facet name="input"><p:inputText value="#{tipoEventoBeanMB.tipo.dgetTipoDescrip}" style="width:100%" label="Year"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+
+                                    <p:column style="width:32px">
+                                        <p:rowEditor />
+                                    </p:column>
+                                </p:dataTable>
+
+
+                            </h:form>
+
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Eliminar Tipo de evento">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                            <h:outputText value="After a break of more than 15 years..." />
+                        </h:panelGrid>
+                    </p:tab>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

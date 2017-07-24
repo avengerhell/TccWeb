@@ -1,0 +1,87 @@
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 96%;
+}
+
+.ui-bg-rowcolor {
+    background-color: #d6e9c6;
+}
+
+.ui-growl{
+    z-index:11000!important;
+}
+
+.ui-inputtext, .ui-inputfield{
+    border: 1px solid #3f3d3d!important;  
+    background: #ffffff url("/centinela/javax.faces.resource/images/ui-bg_diamond_40_d5d5d5_10x8.png.stnl?ln=primefaces-dcors") 50% 50% repeat!important;
+    color: #2d2b2b!important;
+    box-shadow: 0px 0px 1px black!important;
+    margin: 3px!important;
+}
+
+.ui-input-invalid {
+    color:red!important;
+    border: 1px solid red!important;
+    opacity: 1!important;
+}
+
+.ui-input-success {
+    color:darkgreen!important;
+    border: 1px solid darkgreen!important;
+    opacity: 1!important;
+}
+
+.ui-messages{
+    font-size: 1.1em!important;
+}
+
+.ui-message-error,.ui-message{
+    margin: 0px!important;
+    padding: 0px!important;
+    color: red!important;
+    font-size: 1em!important;
+    background-color: transparent!important;
+    border: 0px!important;
+    border-color: transparent!important;
+}
+
+.ui-message-error-icon{
+    background-image: none!important;
+    display: none!important;
+}
+
+.ui-selectonemenu{
+    background: none!important;
+    border: 0px!important;
+}
+
+.ui-selectonemenu-trigger{
+    width: 22px!important;
+    padding: 0px!important;
+    border: 0px!important;
+    height: 95%!important;
+}
+
+.dtInvoices{
+    width: 300px;
+}
+
+.invoiceOverdue{
+    color: red!important;
+}
+
+.ui-state-error{
+    border: 1px solid red!important;
+}
+
+.ui-fileupload-files tbody tr td{
+    max-width: 320px!important;
+    display: block;
+}
+
+.ui-inputswitch{
+    width: 60px!important;
+}
+
+.ui-chkbox-box{
+    margin-left: 4px!important;
+}

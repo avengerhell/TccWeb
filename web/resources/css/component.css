@@ -1,0 +1,117 @@
+*,
+*:after,
+*::before {
+    -moz-box-sizing: border-box!important;
+    box-sizing: border-box!important;
+}
+
+html,
+body,
+.st-container,
+.st-pusher,
+.st-content {
+    height: 100%!important;
+}
+
+.st-content {
+    overflow-y: scroll!important;
+}
+
+.st-content,
+.st-content-inner {
+    position: relative!important;
+}
+
+.st-container {
+    position: relative!important;
+    overflow: hidden!important;
+}
+
+.st-pusher {
+    position: relative!important;
+    left: 0!important;
+    z-index: 99!important;
+    height: 100%!important;
+    -webkit-transition: -webkit-transform 0.5s!important;
+    transition: transform 0.5s!important;
+}
+
+.st-pusher::after {
+    position: absolute!important;
+    top: 0!important;
+    right: 0!important;
+    width: 0!important;
+    height: 0!important;
+    background: rgba(0,0,0,0.4)!important;
+    content: ''!important;
+    opacity: 0!important;
+    -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s!important;
+    transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s!important;
+}
+
+.st-menu-open .st-pusher::after {
+    width: 100%!important;
+    height: 100%!important;
+    opacity: 1!important;
+    -webkit-transition: opacity 0.5s!important;
+    transition: opacity 0.5s!important;
+}
+
+.st-menu {
+    position: absolute!important;
+    top: 0!important;
+    left: 0!important;
+    z-index: 12000!important;
+    visibility: hidden!important;
+    width: 300px!important;
+    height: 100%!important;
+    -webkit-transition: all 0.5s!important;
+    transition: all 0.5s!important;
+    background: white!important;
+}
+
+.st-menu::after {
+    position: absolute!important;
+    top: 0!important;
+    right: 0!important;
+    width: 100%!important;
+    height: 100%!important;
+    content: ''!important;
+    opacity: 1!important;
+    -webkit-transition: opacity 0.5s!important;
+    transition: opacity 0.5s!important;
+}
+
+.st-menu-open .st-menu::after {
+    width: 0!important;
+    height: 0!important;
+    opacity: 0!important;
+    -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s!important;
+    transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s!important;
+}
+
+/* Effect 1: Slide in on top */
+.st-effect-1.st-menu {
+    visibility: visible!important;
+    -webkit-transform: translate3d(-100%, 0, 0)!important;
+    transform: translate3d(-100%, 0, 0)!important;
+}
+
+.st-effect-1.st-menu-open .st-effect-1.st-menu {
+    visibility: visible!important;
+    -webkit-transform: translate3d(0, 0, 0)!important;
+    transform: translate3d(0, 0, 0)!important;
+    -webkit-box-shadow: 11px -2px 8px -6px rgba(0,0,0,0.75)!important;
+    -moz-box-shadow: 11px -2px 8px -6px rgba(0,0,0,0.75)!important;
+    box-shadow: 11px -2px 8px -6px rgba(0,0,0,0.75)!important;
+}
+
+.st-effect-1.st-menu::after {
+    display: none!important;
+}
+
+/* Fallback example for browsers that don't support 3D transforms (and no JS fallback) */
+.no-csstransforms3d .st-pusher,
+.no-js .st-pusher {
+    padding-left: 300px!important;
+}

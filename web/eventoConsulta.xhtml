@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/facelets/template/menuTem.xhtml">
+
+            <ui:define name="content-center">
+                <h:form id="formMostrar">
+                    <p:panelGrid columns="6">
+                        <p:outputLabel value="Nombre:" style="width: 130px"/>
+                        <p:autoComplete id="dd"
+                                        dropdown="true" 
+                                        value="#{eventoCabBeanMB.nombre}" 
+                                        completeMethod="#{eventoCabBeanMB.completeEvent}"
+                                        var="even"
+                                        itemValue="#{even.nombre}"
+                                        itemLabel="#{even.nombre}"
+                                        style="width: 210px"/>
+                        <p:outputLabel value="Organizador:" style="width: 130px"/>
+                        <p:autoComplete id="d1"
+                                        dropdown="true" 
+                                        value="#{eventoCabBeanMB.proveedor}" 
+                                        completeMethod="#{proveedorBeanMB.completeProveedor}"
+                                        var="pro"
+                                        itemValue="#{pro.codPersona.nombre}"
+                                        itemLabel="#{pro.codPersona.nombre}"
+                                        style="width: 210px"/>
+                        <p:commandButton value="Buscar"
+                                         actionListener="#{eventoCabBeanMB.obtenerParametroEvento()}"
+                                         ajax="true"
+                                         update="datta"
+                                         icon="icon-disk"/>
+                    </p:panelGrid>
+                    <div style="height: 1000px; overflow: auto;">
+                        <p:dataTable id="datta" var="ev" value="#{eventoCabBeanMB.eventos}"
+                                     emptyMessage="No existen personas disponibles"
+                                     paginator="true" rows="24" paginatorPosition="top"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate ="10">
+                            <p:column headerText='Proveedor'>
+                                <h:outputText value='#{ev.codProveedor.codPersona.nombre}'/>
+                            </p:column>
+                            <p:column headerText='Nombre'>
+                                <h:outputText value='#{ev.nombre}'/>
+                            </p:column>
+                            <p:column headerText='Fecha Contrato'>
+                                <h:outputText value='#{ev.fecContrato}' >
+                                    <f:convertDateTime locale="es_PY"
+                                                       timeZone="#{config.timeZoneDefault()}"
+                                                       pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column> 
+                            <p:column headerText='Fecha Inicio'>
+                                <h:outputText value="#{ev.fecInicio}">
+                                    <f:convertDateTime locale="es_PY"
+                                                       timeZone="#{config.timeZoneDefault()}"
+                                                       pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText='Estado' id="service">
+                                <h:outputText value='#{ev.estado}'/>
+                            </p:column>
+                            <p:column headerText='Sectores' style="width: 65px">
+                                <p:commandButton icon="ui-icon-search" oncomplete="PF('digSector').show()" update="@([id$=formSector])"
+                                                 actionListener="#{sectorBeanMB.obtenerSectores(ev.codEvento)}"/>
+                            </p:column>
+                            <p:column headerText='Horarios' style="width: 65px">
+                                <p:commandButton icon="ui-icon-search" oncomplete="PF('digHorario').show()" update="@([id$=formHorario])"
+                                                 actionListener="#{horarioBeanMB.obtenerHorarios(ev.codEvento)}"/>
+                            </p:column>
+                            <p:column headerText='Condiciones' style="width: 65px">
+                                <p:commandButton icon="ui-icon-search" oncomplete="PF('digHorario').show()" update="@([id$=formHorario])"
+                                                 actionListener="#{condicionEventoBeanMB.obtenerCondicionEve(ev.codEvento)}"/>
+                            </p:column>
+                            <p:column headerText='Precios' style="width: 65px">
+                                <p:commandButton icon="ui-icon-search" oncomplete="PF('digPrecio').show()" update="@([id$=formPrecio])"
+                                                 actionListener="#{listaPrecioBeanMB.obtenerListaPrecioEvento(ev.codEvento)}"/>
+                            </p:column>
+                            <p:column headerText='Localidades' style="width: 65px">
+                                <p:commandButton icon="ui-icon-search" oncomplete="PF('digLocalidad').show()" update="@([id$=formLocal])"
+                                                 actionListener="#{localidadEventoBeanMB.obtenerLocalidadEvento(ev.codEvento)}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </h:form>
+                <!--                **************************** 
+                
+                                ACA COMIENZA LO REFERENTE A SECTORES
+                
+                                **************************** -->
+                <p:dialog id="mostrarSector" header="Sectores" showEffect="explode" 
+                          hideEffect="explode" widgetVar="digSector" modal="true"  
+                          resizable="true" minWidth="200" closeOnEscape="true" height="410" >
+                    <h:form id ="formSector">
+                        <p:dataTable id="secData" var="sec" value="#{sectorBeanMB.sectores}"
+                                     emptyMessage="El evento no posee sector"
+                                     paginator="true" rows="10" paginatorPosition="top"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate ="10">
+                            <p:column headerText='Descripcion' style="width:80px">
+                                <h:outputText value='#{sec.descripcion}'/>
+                            </p:column>
+                            <p:column headerText='Ilimitado'>
+                                <h:outputText value='#{sec.ilimitado}'/>
+                            </p:column>
+                            <p:column headerText='Cantidad'>
+                                <h:outputText value='#{sec.cantidad}'/>
+                            </p:column>
+                            <p:column headerText="Modificar">
+                                <p:commandButton value="Modificar" oncomplete="PF('digModSector').show()" update="@([id$=formModSec])">
+                                    <f:setPropertyActionListener target="#{sectorBeanMB.sector}" value="#{sec}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dlgo" header="Modificar Sector" showEffect="explode" hideEffect="explode"
+                          widgetVar="digModSector" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                    <h:form id="formModSec">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel  value="Descripcion: " />
+                            <p:inputText id="parO" value="#{sectorBeanMB.sector.descripcion}" style="width:200px"/>
+
+                            <p:outputLabel value="Ilimitado: "/>
+                            <p:selectOneMenu id="console" value="#{sectorBeanMB.sector.ilimitado}" style="width:200px">
+                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" />
+                                <f:selectItem itemLabel="SI" itemValue="S" />
+                                <f:selectItem itemLabel="NO" itemValue="N" />                                
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Cantidad: "/>
+                            <p:inputText value="#{sectorBeanMB.sector.cantidad}"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar"
+                                         actionListener="#{sectorBeanMB.modificar()}"
+                                         oncomplete="PF('digModSector').hide();">
+                            <f:ajax render=":formSector:secData"/>
+                        </p:commandButton>
+                        <p:commandButton value="Eliminar" update="@([id$=formSector])" actionListener="#{sectorBeanMB.eliminar()}"
+                                         oncomplete="PF('digModSector').hide();"/>
+                    </h:form>
+                </p:dialog>
+                <!--                **************************** 
+                
+                                ACA COMIENZA LO REFERENTE A HORARIOS
+                 
+                                **************************** -->
+                <p:dialog id="mostrarHorario" header="Horarios" showEffect="explode" 
+                          hideEffect="explode" widgetVar="digHorario" modal="true"  
+                          resizable="true" minWidth="200" closeOnEscape="true" height="410" >
+                    <h:form id ="formHorario">
+                        <p:dataTable id="horData" var="hor" value="#{horarioBeanMB.horas}"
+                                     emptyMessage="No existen horarios para este evento"
+                                     paginator="true" rows="10" paginatorPosition="top"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate ="10">
+                            <p:column headerText='Inicio' style="width:80px">
+                                <h:outputText value='#{hor.fecInicio}'>
+                                    <f:convertDateTime locale="es_PY"
+                                                       timeZone="#{config.timeZoneDefault()}"
+                                                       pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText='Fin'>
+                                <h:outputText value='#{hor.fecFin}'>
+                                    <f:convertDateTime locale="es_PY"
+                                                       timeZone="#{config.timeZoneDefault()}"
+                                                       pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText='Disponible'>
+                                <h:outputText value='#{hor.disponible}'></h:outputText>
+                            </p:column>
+                            <p:column headerText="Modificar">
+                                <p:commandButton value="Modificar" oncomplete="PF('digModHorario').show()" update="@([id$=formModHor])">
+                                    <f:setPropertyActionListener target="#{horarioBeanMB.hora}" value="#{hor}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dlgoHo" header="Modificar Horarios" showEffect="explode" hideEffect="explode"
+                          widgetVar="digModHorario" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                    <h:form id="formModHor">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel  value="Fecha desde: " />
+                            <p:inputText id="parO" value="#{horarioBeanMB.hora.fecInicio}" style="width:200px" readonly="true">
+                                <f:convertDateTime locale="es_PY"
+                                                   timeZone="#{config.timeZoneDefault()}"
+                                                   pattern="dd/MM/yyyy HH:mm"/>
+                            </p:inputText>
+
+                            <p:outputLabel  value="Fecha hasta " />
+                            <p:inputText value="#{horarioBeanMB.hora.fecFin}" style="width:200px" readonly="true">
+                                <f:convertDateTime locale="es_PY"
+                                                   timeZone="#{config.timeZoneDefault()}"
+                                                   pattern="dd/MM/yyyy HH:mm"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="Disponible: "/>
+                            <p:selectOneMenu id="consoleDi" value="#{horarioBeanMB.hora.disponible}" style="width:200px">
+                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" />
+                                <f:selectItem itemLabel="SI" itemValue="S" />
+                                <f:selectItem itemLabel="NO" itemValue="N" />                                
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar"
+                                         actionListener="#{horarioBeanMB.modificar()}"
+                                         oncomplete="PF('digModHorario').hide();">
+                            <f:ajax render=":formHorario:horData"/>
+                        </p:commandButton>
+                        <p:commandButton value="Eliminar" update="@([id$=formSector])" actionListener="#{sectorBeanMB.eliminar()}"
+                                         oncomplete="PF('digModHorario').hide();"/>
+                    </h:form>
+                </p:dialog>
+                <!--                **************************** 
+                
+                                ACA COMIENZA LO REFERENTE A CONDICIONES
+                
+                                **************************** -->
+                <p:dialog id="mostrarCondicion" header="Condiciones" showEffect="explode" 
+                          hideEffect="explode" widgetVar="digCondicion" modal="true"  
+                          resizable="true" minWidth="200" closeOnEscape="true" height="410" >
+                    <h:form id ="formCondicion">
+                        <p:dataTable id="conData" var="con" value="#{condicionEventoBeanMB.condiciones}"
+                                     emptyMessage="No existen condiciones para este evento"
+                                     paginator="true" rows="10" paginatorPosition="top"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate ="10">
+                            <p:column headerText='Condición' style="width:80px">
+                                <h:outputText value='#{con.condicion.descripcion}'/>
+                            </p:column>
+                            <p:column headerText='Valor'>
+                                <h:outputText value='#{con.valor}'/>
+                            </p:column>
+                            <p:column headerText="Modificar">
+                                <p:commandButton value="Modificar" oncomplete="PF('digModCondicion').show()" update="@([id$=formModCon])">
+                                    <f:setPropertyActionListener target="#{condicionEventoBeanMB.condicion}" value="#{con}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dlgoCo" header="Modificar Condicion" showEffect="explode" hideEffect="explode"
+                          widgetVar="digModCondicion" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                    <h:form id="formModCon">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel  value="Condicion: " />
+                            <p:inputText id="parO" value="#{condicionEventoBeanMB.condicion.condicion.descripcion}" style="width:200px" readonly="true"/>
+
+                            <p:outputLabel  value="Valor: " />
+                            <p:inputText value="#{condicionEventoBeanMB.condicion.valor}" style="width:200px" readonly="true"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar"
+                                         actionListener="#{condicionEventoBeanMB.modificar()}"
+                                         oncomplete="PF('digModCondicion').hide();">
+                            <f:ajax render=":formCondicion:conData"/>
+                        </p:commandButton>
+                        <p:commandButton value="Eliminar" update="@([id$=formCondicion])" actionListener="#{condicionEventoBeanMB.eliminar()}"
+                                         oncomplete="PF('digModCondicion').hide();"/>
+                    </h:form>
+                </p:dialog>
+                <!--                **************************** 
+                
+                                ACA COMIENZA LO REFERENTE A PRECIOS
+                
+                                **************************** -->
+                <p:dialog id="mostrarPrecios" header="Precios" showEffect="explode" 
+                          hideEffect="explode" widgetVar="digPrecio" modal="true"  
+                          resizable="true" minWidth="200" closeOnEscape="true" height="410" >
+                    <h:form id ="formPrecio">
+                        <p:dataTable id="precData" var="lis" value="#{listaPrecioBeanMB.listas}"
+                                     emptyMessage="El evento no posee lista de precios"
+                                     paginator="true" rows="10" paginatorPosition="top"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate ="10">
+                            <p:column headerText='Sector' style="width:80px">
+                                <h:outputText value='#{lis.sector.descripcion}'/>
+                            </p:column>
+                            <p:column headerText='Valor'>
+                                <h:outputText value='#{lis.valor}'/>
+                            </p:column>
+                            <p:column headerText='Fecha inicio'>
+                                <h:outputText value='#{lis.fecInicio}'>
+                                    <f:convertDateTime locale="es_PY"
+                                                       timeZone="#{config.timeZoneDefault()}"
+                                                       pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText='Fecha fin'>
+                                <h:outputText value='#{lis.fecFin}'>
+                                    <f:convertDateTime locale="es_PY"
+                                                       timeZone="#{config.timeZoneDefault()}"
+                                                       pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Modificar">
+                                <p:commandButton value="Modificar" oncomplete="PF('digModPrecio').show()" update="@([id$=formModPre])">
+                                    <f:setPropertyActionListener target="#{listaPrecioBeanMB.lista}" value="#{lis}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dlpr" header="Modificar Precio" showEffect="explode" hideEffect="explode"
+                          widgetVar="digModPrecio" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                    <h:form id="formModPre">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel  value="Sector " />
+                            <p:inputText id="parO" value="#{listaPrecioBeanMB.lista.sector.descripcion}" style="width:200px" readonly="true"/>
+
+                            <p:outputLabel value="Ilimitado: "/>
+                            <p:inputText value="#{listaPrecioBeanMB.lista.valor}"/>
+
+                            <p:outputLabel value="Fecha inicio: "/>
+                            <p:inputText value="#{listaPrecioBeanMB.lista.fecInicio}">
+                                <f:convertDateTime locale="es_PY"
+                                                   timeZone="#{config.timeZoneDefault()}"
+                                                   pattern="dd/MM/yyyy HH:mm"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="Fecha fin: "/>
+                            <p:inputText value="#{listaPrecioBeanMB.lista.fecFin}">
+                                <f:convertDateTime locale="es_PY"
+                                                   timeZone="#{config.timeZoneDefault()}"
+                                                   pattern="dd/MM/yyyy HH:mm"/>
+                            </p:inputText>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar"
+                                         actionListener="#{listaPrecioBeanMB.modificar()}"
+                                         oncomplete="PF('digModPrecio').hide();">
+                            <f:ajax render=":formPrecio:precData"/>
+                        </p:commandButton>
+                        <p:commandButton value="Eliminar" update="@([id$=formPrecio])" actionListener="#{listaPrecioBeanMB.eliminar()}"
+                                         oncomplete="PF('digModPrecio').hide();"/>
+                    </h:form>
+                </p:dialog>
+
+                <!--                **************************** 
+                    
+                                    ACA COMIENZA LO REFERENTE A LOCALIDADES
+                    
+                                    **************************** -->
+                <p:dialog id="mostrarLocalidad" header="Localidades" showEffect="explode" 
+                          hideEffect="explode" widgetVar="digLocalidad" modal="true"  
+                          resizable="true" minWidth="200" closeOnEscape="true" height="410" >
+                    <h:form id ="formLocal">
+                        <p:dataTable id="locData" var="loc" value="#{localidadEventoBeanMB.localidades}"
+                                     emptyMessage="El evento no posee localidades"
+                                     paginator="true" rows="10" paginatorPosition="top"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate ="10">
+                            <p:column headerText='Localidad' style="width:80px">
+                                <h:outputText value='#{loc.localidad.descripcion}'/>
+                            </p:column>
+                            <p:column headerText="Modificar">
+                                <p:commandButton value="Modificar" oncomplete="PF('digModPrecio').show()" update="@([id$=formModPre])">
+                                    <f:setPropertyActionListener target="#{localidadEventoBeanMB.localidad}" value="#{loc}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

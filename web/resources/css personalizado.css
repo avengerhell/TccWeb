@@ -1,0 +1,17 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11/06/2017, 06:54:42 PM
+    Author     : Diego
+*/
+
+#imagelogin {
+    position:absolute;
+    top: 50%;
+    left:50%;
+    margin-top: -50%; /* El valor 200 es ficticio, debes cambiarlo en cada caso por la mitad de la altura de tu imagen*/
+    margin-left:  -50%;
+}

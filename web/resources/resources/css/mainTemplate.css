@@ -1,0 +1,143 @@
+body{
+    background-color:#f5f5f5;
+}
+
+.account-wall {
+    margin-top: 25px;
+    padding: 40px 0px 20px 0px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+}
+
+button{
+    height: 40px!important;
+    width: 146px!important;
+    line-height: 40px!important;/* Same as height */
+    margin: auto!important;
+    cursor: pointer!important;
+    display: block;
+}
+
+button .i {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: -20px;
+    font-size: 1.6em;
+    line-height: 16px;
+    color: white;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+button .ui-button-text{
+    display: block;
+    color: white;
+    font-family: 'Montserrat', Arial, sans-serif; 
+    font-size: 1.1em;
+    text-shadow: 0 1px 0 rgba(2,2,2,0.4);
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -ms-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Click on button*/
+
+button:active .ui-button-text {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+}
+
+button:active .i {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    left: 0;
+    color: #fff;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover .ui-button-text,
+button:focus .ui-button-text {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+    -webkit-transform: translateX(-20px);
+    -moz-transform: translateX(-20px);
+    -ms-transform: translateX(-20px);
+    -o-transform: translateX(-20px);
+    transform: translateX(-20px);
+}
+
+button:active .ui-button-text,
+button:active .i {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none; 
+}
+
+button:hover .i,
+button:focus .i {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=70);
+    opacity: 0.9;
+    left: 0;
+    -webkit-transition-delay: 0.2s;
+    -moz-transition-delay: 0.2s;
+    -o-transition-delay: 0.2s;
+    -ms-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.label {
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Raleway', sans-serif;
+    color: #044f97!important;
+    font-weight: bold!important;
+}
+
+.profile-img {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 5%; /*50%;*/
+}
+
+.ui-button-text-icon-left, .ui-button-text{
+    padding: .3em 1.4em .3em 1.8em!important;
+}
+
+.ui-icon.fa {
+    text-indent:0px!important;
+    background-image:none!important;
+}
+
+.ui-button{
+    display: block!important;
+}
+

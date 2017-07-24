@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div>
+            
+            <p:dialog id="mostrarBasicos" header="Basicos" showEffect="explode" 
+                      hideEffect="explode" widgetVar="digBasicos" modal="true" 
+                      resizable="true" minWidth="200" closeOnEscape="true" height="410" >
+                <h:form id ="formBasicos">
+                    <p:dataTable id="baData" var="ba" value="#{basicosBeanMB.lista}"
+                                 emptyMessage="La persona no tiene datos"
+                                 paginator="true" rows="10" paginatorPosition="top"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                 {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate ="10">
+                        
+                        <p:column headerText='Persona'>
+                            <h:outputText value='#{ba.codPer}'/>
+                        </p:column>
+                        <p:column headerText='Telefono'>
+                            <h:outputText value='#{ba.numTel}'/>
+                        </p:column>
+                        <p:column headerText='Tipo telefono'>
+                            <h:outputText value='#{ba.tipoNum}'/>
+                        </p:column>
+                        <p:column headerText='Tipo identificacion'>
+                            <h:outputText value='#{ba.tipoIden}' />
+                        </p:column>
+                        <p:column headerText='Nro. identificacion'>
+                            <h:outputText value='#{ba.numTel}' />
+                        </p:column>
+                        <p:column headerText='Direccion'>
+                            <h:outputText value='#{ba.detaDir}' />
+                        </p:column>
+                        <p:column headerText="Identificacion">
+                            <p:commandButton icon="ui-icon-search"  oncomplete="PF('digModIdent').show()" update="@([id$=formModIdent])">
+                                <f:setPropertyActionListener target="#{clienteBeanMB.cliente}" value="#{cli}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar">
+                            <p:commandButton value="Eliminar" oncomplete="PF('digDelClie').show()" update="@([id$=formEliCli])">
+                                <f:setPropertyActionListener target="#{clienteBeanMB.cliente}" value="#{cli}"/>
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="dlgo" header="Modificar Identificacion" showEffect="explode" hideEffect="explode"
+                      widgetVar="digModIdent" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                <h:form id="formModIdent">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel  value="Cliente: " />
+                        <p:inputText id="parO" value="#{identPersonaBeanMB.identidad.codPersona.nombre}" style="width:200px" converter="omnifaces.SelectItemsConverter" readonly="true"/>
+
+                        <p:outputLabel value="Tipo Identificacion: "/>
+                        <p:inputText id="console" value="#{identPersonaBeanMB.identidad.codIdent.descripcion}" style="width:200px"/>
+                            
+                        <p:outputLabel value="Numero Identificacion: "/>
+                        <p:inputText id="console" value="#{identPersonaBeanMB.identidad.numero}" style="width:200px"/>
+                        
+                        
+
+                    </p:panelGrid>
+                    <p:commandButton value="Modificar"
+                                     actionListener="#{identPersonaBeanMB.modificar()}"
+                                     oncomplete="PF('digModCliente').hide();">
+                        <f:ajax render=":formCliente:cliData"/>
+                    </p:commandButton>
+
+                </h:form>
+            </p:dialog>
+            <p:dialog id="dlgEliminar" header="Eliminar" showEffect="explode" hideEffect="explode"
+                      widgetVar="digDelClie" modal="true" resizable="false" minWidth="200" closeOnEscape="true" onHide="PF('mostrarCliente').hide();">
+                <h:form id="formEliCli">
+
+                    <h:outputText value="Desea eliminar?"/>
+                    <p:commandButton value="Sí" update="@([id$=formCliente])" actionListener="#{clienteBeanMB.eliminar()}"
+                                     oncomplete="PF('digDelClie').hide();"/>
+                    <p:commandButton value="No" onclick="digDelClie.hide();"/>
+                </h:form>
+            </p:dialog></div>
+    </body>
+</html>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/facelets/template/menuTem.xhtml">
+
+            <ui:define name="content-center">
+                <h:form id ="formInsertar">
+                    <p:panelGrid columns ="2">
+                        <p:outputLabel value="Evento: "/>
+                        <p:selectOneMenu id="ti" value="#{horarioBeanMB.event}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{eventoCabBeanMB.eventos}"
+                                           var="tip"
+                                           itemLabel="#{tip.nombre}"
+                                           itemValue="#{tip.codEvento}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Hora desde: "/>
+                        <p:calendar id="hD" value="#{horarioBeanMB.hora_desde}" pattern="HH:mm" timeOnly="true"/>
+
+                        <p:outputLabel value="Hora Hasta: "/>
+                        <p:calendar id="hh" value="#{horarioBeanMB.hora_hasta}" pattern="HH:mm" timeOnly="true"/>
+
+                        <p:outputLabel value="Fecha de Inicio: "/>
+                        <p:calendar id="inicio" value="#{horarioBeanMB.fecha_desde}" pattern="dd/MM/yyyy" mask="true">
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Fecha de Fin: "/>
+                        <p:calendar id="fin" value="#{horarioBeanMB.fecha_hasta}" pattern="dd/MM/yyyy" mask="true" >
+                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Día desde: "/>
+                        <p:selectOneMenu id="diaD" value="#{horarioBeanMB.dia_desde}" style="width:200px">
+                            <f:selectItem itemLabel="Seleccionar día: " itemValue="#{null}" />
+                            <f:selectItem itemLabel="1-Lunes" itemValue="1" />
+                            <f:selectItem itemLabel="2-Martes" itemValue="2" />
+                            <f:selectItem itemLabel="3-Miercoles" itemValue="3" />
+                            <f:selectItem itemLabel="4-Jueves" itemValue="4" />
+                            <f:selectItem itemLabel="4-Viernes" itemValue="5" />
+                            <f:selectItem itemLabel="4-Sabado" itemValue="6" />
+                            <f:selectItem itemLabel="4-Domingo" itemValue="7" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Día hasta: "/>
+                        <p:selectOneMenu id="diaH" value="#{horarioBeanMB.dia_hasta}" style="width:200px">
+                            <f:selectItem itemLabel="Seleccionar día: " itemValue="#{null}" />
+                            <f:selectItem itemLabel="1-Lunes" itemValue="1" />
+                            <f:selectItem itemLabel="2-Martes" itemValue="2" />
+                            <f:selectItem itemLabel="3-Miercoles" itemValue="3" />
+                            <f:selectItem itemLabel="4-Jueves" itemValue="4" />
+                            <f:selectItem itemLabel="4-Viernes" itemValue="5" />
+                            <f:selectItem itemLabel="4-Sabado" itemValue="6" />
+                            <f:selectItem itemLabel="4-Domingo" itemValue="7" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Periodo de tiempo en minutos: "/>
+                        <p:inputText value="#{horarioBeanMB.periodo}" style="width:195px"/>
+
+                    </p:panelGrid>
+
+                    <p:commandButton actionListener="#{horarioBeanMB.horarios()}" value="Generar" /> 
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
