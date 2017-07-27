@@ -5,7 +5,7 @@
  */
 package com.burgosanchez.tcc.venta.web.bean;
 
-import CodigoDiego.conexionOracle;
+
 import com.burgosanchez.tcc.venta.ejb.EventoCab;
 import com.burgosanchez.tcc.venta.ejb.Horario;
 import com.burgosanchez.tcc.venta.ejb.Sector;
