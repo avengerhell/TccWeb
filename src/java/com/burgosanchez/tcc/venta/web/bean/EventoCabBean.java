@@ -4,11 +4,6 @@
  * and open the template in the editor.
  */
 package com.burgosanchez.tcc.venta.web.bean;
-
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 import com.burgosanchez.tcc.venta.ejb.EventoCab;
 import com.burgosanchez.tcc.venta.ejb.Horario;
 import com.burgosanchez.tcc.venta.ejb.Sector;
