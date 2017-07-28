@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/facelets/template/menuTem.xhtml">
+
+            <ui:define name="content-center">
+                <div style="height: 1000px; overflow: auto"> 
+                    <h:form id ="formInsertarProv"> 
+                        <script type="text/javascript">
+                            function limpiarForm()
+                            {
+                                document.getElementById("formInsertarProv").reset();
+                            }
+                        </script>
+
+                        <p:panelGrid  columns="2">
+                            <p:outputLabel value="Persona Fisica: "/>
+                            <p:selectBooleanCheckbox value="#{proveedorBeanMB.tipop}" style="width:200px">
+                                <p:ajax update=":formInsertarProv:apellido"/>
+                                
+                            </p:selectBooleanCheckbox>
+
+                            <p:outputLabel  value="Nombre: " title="Nombre Proveedor"/>
+                            <p:inputText value="#{personaBeanMB.persona.nombre}" maxlength="15" style ="width:200px" />
+
+                            <p:outputLabel  value="Apellido: "/>
+                            <p:inputText id ="apellido" value="#{personaBeanMB.persona.apellido}" maxlength="20" style ="width:200px"  disabled ="#{proveedorBeanMB.tipop == false}"/>
+
+
+                            <p:outputLabel value="Genero: "/>
+                            <p:selectOneMenu id="genero" value="#{personaBeanMB.persona.sexo}" style="width:200px" disabled ="#{proveedorBeanMB.tipop == false}">
+                                <f:selectItem itemLabel="Seleccionar Sexo: " itemValue="#{null}" />
+                                <f:selectItem itemLabel="1-Hombre" itemValue="H" />
+                                <f:selectItem itemLabel="2-Mujer" itemValue="M" />
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Fecha de Nacimiento: "/>
+                            <p:calendar id="mask" value="#{personaBeanMB.persona.fecNacimiento}" pattern="dd/MM/yyyy" mask="true" style ="width:200px" />
+
+
+                            <p:outputLabel value="Pais: "/>
+                            <p:selectOneMenu id="pais" value="#{personaBeanMB.persona.codPais}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Seleccionar Pais" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{paisBeanMB.paises}"
+                                               var="pa"
+                                               itemLabel="#{pa.descripcion}"
+                                               itemValue="#{pa}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Tipo de Cliente: "/>
+                            <p:selectOneMenu id="tipo" value="#{personaBeanMB.cliente.tipoCliente}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" />
+                                <f:selectItem itemLabel="1-Normal" itemValue="1" />
+                                <f:selectItem itemLabel="2-Especial" itemValue="2" />
+                                <f:selectItem itemLabel="3-VIP" itemValue="3" />
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Estado Actual: "/>
+                            <p:selectOneMenu id="estado" value="#{personaBeanMB.cliente.estado}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Seleccionar Estado" itemValue="" />
+                                <f:selectItem itemLabel="1-Activo" itemValue="1" />
+                                <f:selectItem itemLabel="2-Inactivo" itemValue="2" />
+                                <f:selectItem itemLabel="3-Suspendido" itemValue="3" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Numero telefono: "/>
+                            <p:inputText value="#{personaBeanMB.telefono.numero}" style="width:200px"/>
+                            <p:outputLabel value="Tipo documento: "/>
+                            <p:selectOneMenu id="tipoIdent" value="#{personaBeanMB.identificacion.codIdent}" style="width:200px" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{tipoIdentBeanMB.tipos}"
+                                               var="t"
+                                               itemLabel="#{t.descripcion}"
+                                               itemValue="#{t}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Numero Documento: " />
+                            <p:inputText value="#{personaBeanMB.identificacion.numero}" style="width:200px"/>
+
+                            <p:outputLabel value="Direccion: " />
+                            <p:inputText value="#{personaBeanMB.direccion.detalle}" style="width:200px" />
+
+                            <p:outputLabel value="Es Proveedor? : "/>
+                            <p:selectBooleanCheckbox value="#{personaBeanMB.esProv}" style="width:200px">
+                                <p:ajax update=":formInsertarProv:console"/>
+                            </p:selectBooleanCheckbox>
+
+                            <p:outputLabel value="Estado Proveedor: "/>
+                            <p:selectOneMenu id="console" value="#{eventoCabBeanMB.evento.estado}" style="width:200px" disabled="#{personaBeanMB.esProv == false}">
+                                <f:selectItem itemLabel="Seleccionar Estado: " itemValue="#{null}" />
+                                <f:selectItem itemLabel="1-Activo" itemValue="A" />
+                                <f:selectItem itemLabel="2-Inactivo" itemValue="I" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+
+                        <p:commandButton actionListener="#{personaBeanMB.insertar()}" value="Agregar" oncomplete="limpiarForm()"/> 
+
+                    </h:form>
+                </div>
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

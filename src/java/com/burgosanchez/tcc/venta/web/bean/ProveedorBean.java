@@ -32,6 +32,15 @@ public class ProveedorBean implements Serializable {
     List<Proveedor> proveedores;
     private String re;
 
+    public boolean getTipop() {
+        return tipop;
+    }
+
+    public void setTipop(boolean tipop) {
+            this.tipop = tipop;
+    }
+    private boolean tipop = false;
+
     public ProveedorBean() {
         proveedor = new Proveedor();
     }
@@ -95,5 +104,15 @@ public class ProveedorBean implements Serializable {
         provFacade.remove(proveedor);
         proveedor = new Proveedor();
     }
-
+    
+    public boolean Tipop (String tipop)
+    {
+        if("J".equals(tipop))
+        {
+            return false;
+        }
+        
+        return true;
+    }
+  
 }
