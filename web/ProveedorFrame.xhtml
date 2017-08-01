@@ -22,10 +22,14 @@
                         </script>
 
                         <p:panelGrid  columns="2">
+                            <f:facet name="header">
+                                <h3 style="color: black">ALTA PROVEEDORES</h3>
+                            </f:facet>
                             <p:outputLabel value="Persona Fisica: "/>
                             <p:selectBooleanCheckbox value="#{proveedorBeanMB.tipop}" style="width:200px">
                                 <p:ajax update=":formInsertarProv:apellido"/>
-                                
+                                <p:ajax update=":formInsertarProv:genero"/>
+
                             </p:selectBooleanCheckbox>
 
                             <p:outputLabel  value="Nombre: " title="Nombre Proveedor"/>
@@ -56,24 +60,6 @@
                                                itemValue="#{pa}"/>
                             </p:selectOneMenu>
 
-
-                            <p:outputLabel value="Tipo de Cliente: "/>
-                            <p:selectOneMenu id="tipo" value="#{personaBeanMB.cliente.tipoCliente}" style="width:200px" converter="omnifaces.SelectItemsConverter">
-                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" />
-                                <f:selectItem itemLabel="1-Normal" itemValue="1" />
-                                <f:selectItem itemLabel="2-Especial" itemValue="2" />
-                                <f:selectItem itemLabel="3-VIP" itemValue="3" />
-                            </p:selectOneMenu>
-
-
-                            <p:outputLabel value="Estado Actual: "/>
-                            <p:selectOneMenu id="estado" value="#{personaBeanMB.cliente.estado}" style="width:200px" converter="omnifaces.SelectItemsConverter">
-                                <f:selectItem itemLabel="Seleccionar Estado" itemValue="" />
-                                <f:selectItem itemLabel="1-Activo" itemValue="1" />
-                                <f:selectItem itemLabel="2-Inactivo" itemValue="2" />
-                                <f:selectItem itemLabel="3-Suspendido" itemValue="3" />
-                            </p:selectOneMenu>
-
                             <p:outputLabel value="Numero telefono: "/>
                             <p:inputText value="#{personaBeanMB.telefono.numero}" style="width:200px"/>
                             <p:outputLabel value="Tipo documento: "/>
@@ -91,20 +77,15 @@
                             <p:outputLabel value="Direccion: " />
                             <p:inputText value="#{personaBeanMB.direccion.detalle}" style="width:200px" />
 
-                            <p:outputLabel value="Es Proveedor? : "/>
-                            <p:selectBooleanCheckbox value="#{personaBeanMB.esProv}" style="width:200px">
-                                <p:ajax update=":formInsertarProv:console"/>
-                            </p:selectBooleanCheckbox>
-
-                            <p:outputLabel value="Estado Proveedor: "/>
-                            <p:selectOneMenu id="console" value="#{eventoCabBeanMB.evento.estado}" style="width:200px" disabled="#{personaBeanMB.esProv == false}">
+                              <p:outputLabel value="Estado Proveedor: "/>
+                            <p:selectOneMenu id="console" value="#{eventoCabBeanMB.evento.estado}" style="width:200px">
                                 <f:selectItem itemLabel="Seleccionar Estado: " itemValue="#{null}" />
                                 <f:selectItem itemLabel="1-Activo" itemValue="A" />
                                 <f:selectItem itemLabel="2-Inactivo" itemValue="I" />
                             </p:selectOneMenu>
                         </p:panelGrid>
 
-                        <p:commandButton actionListener="#{personaBeanMB.insertar()}" value="Agregar" oncomplete="limpiarForm()"/> 
+                        <p:commandButton actionListener="#{proveedorBeanMB.insertarProveedor()}" value="Agregar" onclick="limpiarForm()"/> 
 
                     </h:form>
                 </div>
