@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <body>
+        <ui:composition template="/WEB-INF/facelets/template/menuTem.xhtml">
+            <ui:define name="content-center">
+                <h:form id = "formAltaUsuario">
+                    <script type="text/javascript">
+                        function limpiarForm()
+                        {
+                            document.getElementById("formAltaUsuario").reset();
+                        }
+                    </script>
+                    <p:panel header="ALTA DE USUARIO">
+                             <h:panelGrid columns="4" cellpadding="5">
+                        <f:facet name="header">
+                            
+                        </f:facet>
+                        <p:outputLabel for="nombre" value="Nombre: " title="Nombre: "/>
+                        <p:inputText id="nombre" value="#{usuarioBeanMB.persona.nombre}" maxlength="15" style ="width:200px" required="true" >
+                            <p:clientValidator />
+                        </p:inputText>
+                      <p:message for="nombre" display="icon" />
+                      <h:outputText value="#{usuarioBeanMB.text}" />
+
+                        <p:outputLabel  for="apellido" value="Apellido: "/>
+                        <p:inputText id ="apellido" value="#{usuarioBeanMB.persona.apellido}" maxlength="20" style ="width:200px" required="true">
+                            <p:clientValidator />
+                        </p:inputText>
+                        <p:message for="apellido" display="icon" />
+                        <h:outputText value="#{usuarioBeanMB.text}" />
+                        
+                        <p:outputLabel for ="genero" value="Genero: "/>
+                        <p:selectOneMenu id="genero" value="#{usuarioBeanMB.persona.sexo}" style="width:200px" required="true">
+                            <f:selectItem itemLabel="Seleccionar Sexo: " itemValue="#{null}" />
+                            <f:selectItem itemLabel="1-Hombre" itemValue="H" />
+                            <f:selectItem itemLabel="2-Mujer" itemValue="M" />
+                            <p:clientValidator />
+                        </p:selectOneMenu>
+                        <p:message for="genero" display="icon" />
+                        <h:outputText value="#{usuarioBeanMB.text}" />
+
+
+                        <p:outputLabel for ="mask" value="Fecha de Nacimiento: "/>
+                        <p:calendar id="mask" value="#{usuarioBeanMB.persona.fecNacimiento}" pattern="dd/MM/yyyy" mask="true" style ="width:200px" required="true">
+                            <p:clientValidator />
+                        </p:calendar>
+                        <p:message for="mask" display="icon" />
+                        <h:outputText value="#{usuarioBeanMB.text}" />
+
+
+                        <p:outputLabel for="pais" value="Pais: "/>
+                        <p:selectOneMenu id="pais" value="#{usuarioBeanMB.persona.codPais}" style="width:200px" converter="omnifaces.SelectItemsConverter" required="true">
+                            <f:selectItem itemLabel="Seleccionar Pais" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{paisBeanMB.paises}"
+                                           var="pa"
+                                           itemLabel="#{pa.descripcion}"
+                                           itemValue="#{pa}"/>
+                            <p:clientValidator />
+                        </p:selectOneMenu>
+                        <p:message for="pais" display="icon" />
+                        <h:outputText value="#{usuarioBeanMB.text}" />
+
+                        <p:outputLabel for= "usuario" value="Usuario :" />
+                        <p:inputText id ="usuario" value="#{usuarioBeanMB.user.nomUser}" style="width:200px" required="true">
+                            <p:clientValidator />
+                        </p:inputText>
+                      <p:message for="usuario" display="icon" />
+                      <h:outputText value="#{usuarioBeanMB.text}" />
+
+                        <p:outputLabel for="password" value="Contraseña : " />
+                        <p:password id="password" value="#{usuarioBeanMB.user.password}" style="width:200px" required="true">
+                            <p:clientValidator />
+                        </p:password>
+                      <p:message for="password" display="icon" />
+                      <h:outputText value="#{usuarioBeanMB.text}" />
+                      
+                        <p:outputLabel for="tipoU" value="Tipo de Usuario: " />
+                        <p:inputText id="tipoU" value="#{usuarioBeanMB.user.tipoUsuario}" style="width:200px" required="true">
+                            <p:clientValidator />
+                        </p:inputText>
+                        <p:message for="tipoU" display="icon" />
+                        <h:outputText value="#{usuarioBeanMB.text}" />
+
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{usuarioBeanMB.insertar}" ajax ="false" icon="ui-icon-check" value="AGREGAR" validateClient="true" />
+
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

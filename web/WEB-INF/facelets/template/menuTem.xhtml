@@ -18,15 +18,14 @@
                         <p:menubar>
                             <p:submenu label="Inicio" icon="fa fa-home" >
                                 <p:menuitem  value="Menu Principal" url="index.xhtml" update="messages"/>
-                                <p:submenu label="ADM Usuarios" icon="ui-icon-star">
-                                    <p:menuitem value="Alta Usuario" url="#" update="messages"/>
-                                    <p:menuitem value="Modificacion Usuario" url="#" update="messages"/>
-                                    <p:menuitem value="Baja Usuario" url="#" update="messages"/>
-                                </p:submenu>    
                                 <p:separator />
                                 <p:menuitem value="Cerrar Sesión" url="#"  />
-
                             </p:submenu>
+                            <p:submenu label="Usuarios" icon="ui-icon-star">
+                                <p:menuitem value="Alta Usuario" url="UsuarioAlta.xhtml" update="messages"/>
+                                <p:menuitem value="Modificacion Usuario" url="#" update="messages"/>
+                                <p:menuitem value="Baja Usuario" url="#" update="messages"/>
+                            </p:submenu>    
                             <p:submenu label="Parametros" icon="ui-icon-check" >
                                 <p:menuitem value="Personas" url="PersonaFrame.xhtml" update="messages"/>
                                 <p:menuitem value="Eventos" url="EventoCabFrame.xhtml" update="messages" />                                        
@@ -37,7 +36,7 @@
                             <p:submenu label="Eventos" icon="ui-icon.check">
                                 <p:menuitem value="Tipo Eventos" url="admEvento.xhtml" update="messages"/>
                             </p:submenu>
-                             <p:submenu label="Proveedores" icon="fa-stack-exchange">
+                            <p:submenu label="Proveedores" icon="fa-stack-exchange">
                                 <p:menuitem value="Alta Proveedores" url="ProveedorFrame.xhtml" update="messages"/>
                             </p:submenu>
                             <p:submenu label="Consultas" icon="ui-icon-check">
@@ -54,7 +53,7 @@
 
                 </section>
                 <section id="content-tcc">
-                    
+
                     <ui:insert name="content-center">
                     </ui:insert>
                 </section>
