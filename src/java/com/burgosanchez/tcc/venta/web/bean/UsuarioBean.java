@@ -10,6 +10,7 @@ import com.burgosanchez.tcc.venta.ejb.Usuario;
 import com.burgosanchez.tcc.venta.ejb.UsuarioPK;
 import com.burgosanchez.tcc.venta.jpa.PersonaFacade;
 import com.burgosanchez.tcc.venta.jpa.UsuarioFacade;
+import com.burgosanchez.tcc.venta.jpa.BasicosFacade;
 import com.burgosanchez.tcc.venta.web.common.MsgUtil;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -35,20 +36,28 @@ public class UsuarioBean implements Serializable {
     PersonaFacade personaFacade;
     @Inject
     UsuarioFacade usuarioFacade;
+    @Inject
+    BasicosFacade basicosFacade;
 
     private Persona persona;
     private Usuario user;
     private List<Usuario> users;
+    private List<Persona> personas;
+    
+
+    
     private String usuarioNombre;
 
-    public String getText() {
-        return text;
+    private String text;
+
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
-    private String text;
+    private String usuario;
 
     public UsuarioBean() {
         persona = new Persona();
@@ -87,7 +96,26 @@ public class UsuarioBean implements Serializable {
     public void setUsuarioNombre(String usuarioNombre) {
         this.usuarioNombre = usuarioNombre;
     }
+    
+    public List<Persona> getPersonas() {
+        return personas;
+    }
 
+    public void setPersonas(List<Persona> personas) {
+        this.personas = personas;
+        
+    }
+    
+     public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+//<editor-fold>
+
+//region Sesiones
     public String validateUsernamePassword() {
         boolean valid;
         Map<String, Object> parameters = new HashMap<>();
@@ -111,13 +139,14 @@ public class UsuarioBean implements Serializable {
         }
     }
 
-    //logout event, invalidate session
     public String logout() {
         HttpSession session = SessionBean.getSession();
         session.invalidate();
         return "login";
     }
+//endregion 
 
+//region ADMINISTRACION
     public void insertar() throws Exception {
         if (persona.getNombre() != null) {
             Integer codper = personaFacade.obtenerSecuenciaVal();
@@ -134,13 +163,11 @@ public class UsuarioBean implements Serializable {
             usuarioFacade.create(user);
             MsgUtil.addInfoMessage("Se creó exitosamente el usuario");
             limpiarCampos();
-            
 
-        }
-        else{
+        } else {
             MsgUtil.addInfoMessage("Error en al creación del usuario verifique los campos");
         }
-            
+
     }
 
     public void modificar() throws Exception {
@@ -162,7 +189,9 @@ public class UsuarioBean implements Serializable {
         }
         user = new Usuario();
     }
+    //enregion
 
+    //region Funciones
     public String getNombreApellido() {
 
         String nombre = persona.getNombre();
@@ -171,10 +200,45 @@ public class UsuarioBean implements Serializable {
         return NombreyApellido;
 
     }
-    
-    public void limpiarCampos(){
+
+    public void limpiarCampos() {
         persona = new Persona(null);
         user = new Usuario(null);
     }
+//endregion
 
+    public void buscarUsuario() {
+
+        if (usuario != null) {
+            try {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("user", "%" + usuario.toLowerCase() + "%");
+                users = usuarioFacade.obtenerUsuario2(parameters);
+            } catch (Exception ex) {
+
+            }
+        } else {
+            users = null;
+        }
+    }
+
+    public void modificar2() throws Exception {
+        String a = user.getPersona().getCodPersona();
+        String b = user.getUsuarioPK().toString();
+        UsuarioPK uPK = new UsuarioPK();
+        uPK.setCodUsuario(user.getNomUser());
+        user.setUsuarioPK(uPK);
+        modificar();
+        personaFacade.edit(persona);
+    }
+
+    public void obtenerParametroPersona(Usuario us) {
+
+        String cod = us.getUsuarioPK().getCodUsuario();
+        personas  = personaFacade.obtenerPersonaXCodCliente(cod);
+        if(personas ==null){
+           personas = null;
+        }
+}
+    
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+
+    <body>
+        <div>
+            <p:dialog id="mostrarCliente" header="Cliente" showEffect="explode" 
+                      hideEffect="explode" widgetVar="digCliente" modal="true" 
+                      resizable="true" minWidth="200" closeOnEscape="true" height="410" >
+                <h:form id ="formCliente">
+                    <p:dataTable id="cliData" var="cli" value="#{clienteBeanMB.clientes}"
+                                 emptyMessage="La persona no es cliente"
+                                 paginator="true" rows="10" paginatorPosition="top"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                 {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate ="10">
+                        <p:column headerText='Id Cliente' style="width:80px">
+                            <h:outputText value='#{cli.codCliente}'/>
+                        </p:column>
+                        <p:column headerText='Persona'>
+                            <h:outputText value='#{cli.codPersona.nombre}'/>
+                        </p:column>
+                        <p:column headerText='Tipo'>
+                            <h:outputText value='#{cli.tipoCliente}'/>
+                        </p:column>
+                        <p:column headerText='Estado'>
+                            <h:outputText value='#{cli.estado}'/>
+                        </p:column>
+                        <p:column headerText='Fecha Ingreso'>
+                            <h:outputText value='#{cli.fecIngreso}' />
+                        </p:column>
+                        <p:column headerText="Modificar">
+                            <p:commandButton value="Modificar" oncomplete="PF('digModCliente').show()" update="@([id$=formModCli])">
+                                <f:setPropertyActionListener target="#{clienteBeanMB.cliente}" value="#{cli}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar">
+                            <p:commandButton value="Eliminar" oncomplete="PF('digDelClie').show()" update="@([id$=formEliCli])">
+                                <f:setPropertyActionListener target="#{clienteBeanMB.cliente}" value="#{cli}"/>
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="dlgo" header="Modificar Cliente" showEffect="explode" hideEffect="explode"
+                      widgetVar="digModCliente" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                <h:form id="formModCli">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel  value="Cliente: " />
+                        <p:inputText id="parO" value="#{clienteBeanMB.cliente.codPersona.nombre}" style="width:200px" converter="omnifaces.SelectItemsConverter" readonly="true"/>
+
+                        <p:outputLabel value="Tipo Cliente: "/>
+                        <p:selectOneMenu id="console" value="#{clienteBeanMB.cliente.tipoCliente}" style="width:200px">
+                            <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" />
+                            <f:selectItem itemLabel="1-Normal" itemValue="1" />
+                            <f:selectItem itemLabel="2-Especial" itemValue="2" />
+                            <f:selectItem itemLabel="3-VIP" itemValue="3" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Estado: "/>
+                        <p:selectOneMenu id="valor" value="#{clienteBeanMB.cliente.estado}" style="width:200px">
+                            <f:selectItem itemLabel="Seleccionar Estado" itemValue="" />
+                            <f:selectItem itemLabel="1-Activo" itemValue="1" />
+                            <f:selectItem itemLabel="2-Inactivo" itemValue="2" />
+                            <f:selectItem itemLabel="3-Suspendido" itemValue="3" />
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton value="Modificar"
+                                     actionListener="#{clienteBeanMB.modificar()}"
+                                     oncomplete="PF('digModCliente').hide();">
+                        <f:ajax render=":formCliente:cliData"/>
+                    </p:commandButton>
+
+                </h:form>
+            </p:dialog>
+            <p:dialog id="dlgEliminar" header="Eliminar" showEffect="explode" hideEffect="explode"
+                      widgetVar="digDelClie" modal="true" resizable="false" minWidth="200" closeOnEscape="true" onHide="PF('mostrarCliente').hide();">
+                <h:form id="formEliCli">
+
+                    <h:outputText value="Desea eliminar?"/>
+                    <p:commandButton value="Sí" update="@([id$=formCliente])" actionListener="#{clienteBeanMB.eliminar()}"
+                                     oncomplete="PF('digDelClie').hide();"/>
+                    <p:commandButton value="No" onclick="digDelClie.hide();"/>
+                </h:form>
+            </p:dialog></div>
+    </body>
+</html>

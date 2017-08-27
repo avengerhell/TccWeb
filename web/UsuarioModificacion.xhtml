@@ -14,23 +14,113 @@ and open the template in the editor.
     <body>
         <ui:composition template="/WEB-INF/facelets/template/menuTem.xhtml">
             <ui:define name="content-center">
-                <p:tabMenu activeIndex="#{param.i}">
-                    <p:menuitem value="Overview" outcome="AdmUsuario" icon="ui-icon-star">
-                        <f:param name="i" value="0" />
-                    </p:menuitem>
-                    <p:menuitem value="Demos" outcome="AdmUsuario" icon="ui-icon-search">
-                        <f:param name="i" value="1" />
-                    </p:menuitem>
-                    <p:menuitem value="Documentation" outcome="AdmUsuario" icon="ui-icon-document">
-                        <f:param name="i" value="2" />
-                    </p:menuitem>
-                    <p:menuitem value="Support" outcome="AdmUsuario" icon="ui-icon-wrench">
-                        <f:param name="i" value="3" />
-                    </p:menuitem>
-                    <p:menuitem value="Social" outcome="AdmUsuario" icon="ui-icon-person">
-                        <f:param name="i" value="4" />
-                    </p:menuitem>
-                </p:tabMenu>
+                <h:form id="formMostrar">
+                    <p:panelGrid columns="3">
+                        <p:outputLabel value="Buscar Usuario:" style="width: 130px"/>
+                        <p:inputText value="#{usuarioBeanMB.usuario}"></p:inputText>
+                        <p:commandButton value="Buscar"
+                                         actionListener="#{usuarioBeanMB.buscarUsuario()}"
+                                         ajax="true"
+                                         update="datta"
+                                         icon="icon-disk"/>
+                    </p:panelGrid>
+                    <div style="height: 1000px; overflow: auto;">
+                        <p:dataTable id="datta" var="us" value="#{usuarioBeanMB.users}"
+                                     emptyMessage="No existen usuarios disponibles"
+                                     paginator="true" rows="24" paginatorPosition="bottom"
+                                     paginatorAlwaysVisible ="false"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate ="10">
+
+                            <p:column headerText='Nombre y apellido'>
+                                <h:outputText value='#{us.nomUser}'/>
+                            </p:column>
+                            <p:column headerText='Contraseña'>
+                                <h:outputText value='#{us.password}'/>
+                            </p:column>
+                            <p:column headerText='Tipo de Usuario'>
+                                <h:outputText value="#{us.tipoUsuario eq '1' ? 'Administrador' : us.tipoUsuario eq '2' ? 'Cliente' : us.tipoUsuario eq '99' ? 'Baja': ''}"/>
+                            </p:column>
+
+                            <p:column headerText='Modificar' >
+                                <p:commandButton icon="fa-star-o" oncomplete="PF('digModUsuario').show()" update="@([id$=formMostrar])">
+                                    <f:setPropertyActionListener target="#{usuarioBeanMB.user.usuarioPK.codUsuario}" value="#{us}"/>
+                                    <f:setPropertyActionListener target="#{usuarioBeanMB.user.usuarioPK.codUsuario}" value="#{us}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column headerText='Datos' >
+                                <p:commandButton icon="ui-icon-search" oncomplete="PF('digModDatos').show()" update="@([id$=formMostrar])"
+                                                 actionListener="#{usuarioBeanMB.obtenerParametroPersona(us)}">
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </h:form>
+
+                <!--MODIFICACION-->
+                <p:dialog id="dlgo" header="Modificar Usuario" showEffect="explode" hideEffect="explode"
+                          widgetVar="digModUsuario" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                    <h:form id="formModUsu">
+                        <p:panelGrid columns="2">
+
+                            <p:outputLabel value="Usuario :" />
+                            <p:inputText id ="usuarioMod" value="#{usuarioBeanMB.user.nomUser}" style="width:200px" readonly="true"/>
+
+                            <p:outputLabel  value="Contraseña : " />
+                            <p:password id="passwordMod" value="#{usuarioBeanMB.user.password}" style="width:200px"/>
+
+                            <p:outputLabel value="Tipo Usuario: "/>
+                            <p:selectOneMenu id="console1" value="#{usuarioBeanMB.user.tipoUsuario}" style="width:200px">
+                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{null}" />
+                                <f:selectItem itemLabel="1-Administrador" itemValue="1" />
+                                <f:selectItem itemLabel="2-Cliente" itemValue="2" />
+                            </p:selectOneMenu>
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Modificar"
+                                         actionListener="#{usuarioBeanMB.modificar2()}"
+                                         oncomplete="PF('digModUsuario').hide();">
+                            <f:setPropertyActionListener target="#{usuarioBeanMB.user}" value="#{us}"/>
+                        </p:commandButton>
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dlgo1" header="Modificar Usuario" showEffect="explode" hideEffect="explode"
+                          widgetVar="digModDatos" modal="true" resizable="false" minWidth="200" closeOnEscape="true">
+                    <h:form id="formModDatos">
+                        <p:dataTable id="datta" var="per" value="#{usuarioBeanMB.personas}"
+                                     emptyMessage="No existen personas disponibles"
+                                     paginator="true" rows="24" paginatorPosition="top"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                     {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate ="10">
+                            <p:column headerText='Nombre'>
+                                <h:outputText value='#{per.nombre}'/>
+                            </p:column>
+                            <p:column headerText='Apellido'>
+                                <h:outputText value='#{per.apellido}'/>
+                            </p:column>
+                            <p:column headerText='Sexo'>
+                                <h:outputText value="#{per.sexo eq 'H' ? 'Hombre' : per.sexo eq 'M' ? 'Mujer' : ''}"/>
+                            </p:column>
+                            <p:column headerText='Fecha de nacimiento' id="service">
+                                <h:outputText value='#{per.fecNacimiento}'>
+                                    <f:convertDateTime locale="es_PY"
+                                                       timeZone="#{config.timeZoneDefault()}"
+                                                       pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText='Nacionalidad'>
+                                <h:outputText value='#{per.codPais.descripcion}'/>
+                            </p:column>
+                        </p:dataTable>     
+
+                    </h:form>
+                </p:dialog>
+
 
             </ui:define>
         </ui:composition>
